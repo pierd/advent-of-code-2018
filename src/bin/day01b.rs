@@ -20,7 +20,7 @@ fn main() -> io::Result<()> {
     'outer: loop {
         for n in &changes {
             freq += n;
-            if (seen.contains(&freq)) {
+            if seen.contains(&freq) {
                 println!("{}", freq);
                 break 'outer;
             }
