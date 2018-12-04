@@ -19,6 +19,8 @@ fn main() -> io::Result<()> {
     let mut input = String::new();
     io::stdin().read_to_string(&mut input)?;
     let mut idx = 0; // a dummy solution to the problem of ranges being equal
+
+    // parse everything
     let claims: Vec<Rect> = input
         .split("\n")
         .filter(|line| !line.is_empty())
@@ -39,6 +41,7 @@ fn main() -> io::Result<()> {
             Rect(range1, range2, idx)
         }).collect();
 
+    // prepare edge points for first dimension
     let mut all_first_dimens = Vec::with_capacity(claims.len() * 2);
     let mut sweeps: HashMap<usize, Vec<RangeSweep>> = HashMap::new();
     for claim in &claims {
@@ -47,38 +50,23 @@ fn main() -> io::Result<()> {
         sweeps.entry((claim.0).0).or_default().push(On(&claim.1));
         sweeps.entry((claim.0).1).or_default().push(Off(&claim.1));
     }
-
     all_first_dimens.sort();
     all_first_dimens.dedup();
-    // println!("{:?}", all_first_dimens);
-    // println!("{:?}", sweeps);
 
-    let mut overlapping = 0;
+    let mut overlapping = 0; // counter for overlapping area
 
-    let mut active_ranges = HashSet::new();
+    // currently active ranges (in terms of first dimension)
+    let mut active_ranges: HashSet<&Range> = HashSet::new();
     for i in 0..all_first_dimens.len() {
-        println!(
-            "{:?}: sweeps={:?}",
-            all_first_dimens[i],
-            sweeps.get(&all_first_dimens[i]).unwrap()
-        );
-        for range_sweep in sweeps.get(&all_first_dimens[i]).unwrap() {
-            match range_sweep {
-                On(range) => active_ranges.insert(range),
-                Off(range) => active_ranges.remove(range),
-            };
-        }
-        println!(
-            "{:?}: active_ranges={:?}",
-            all_first_dimens[i], active_ranges
-        );
         if i > 0 && !active_ranges.is_empty() {
+            // something is active -> let's check the other dimension
             let hight = all_first_dimens[i] - all_first_dimens[i - 1];
+
+            // prepare edge points for second dimension
             let mut strip_dimens = Vec::with_capacity(active_ranges.len() * 2);
             let mut strip_sweeps: HashMap<usize, Vec<RangeSweep>> = HashMap::new();
             let mut strip_active_ranges: HashSet<&Range> = HashSet::new();
             let mut strip_overlapping = 0;
-
             for range in active_ranges.iter() {
                 strip_dimens.push(range.0);
                 strip_dimens.push(range.1);
@@ -87,27 +75,30 @@ fn main() -> io::Result<()> {
             }
             strip_dimens.sort();
             strip_dimens.dedup();
+
             for j in 0..strip_dimens.len() {
+                if j > 0 && strip_active_ranges.len() > 1 {
+                    // more then 1 range is active -> we have an overlap!
+                    let current_overlap = strip_dimens[j] - strip_dimens[j - 1];
+                    strip_overlapping += hight * current_overlap;
+                }
+                // process changes for current edge point (in strip = second dimension)
                 for range_sweep in strip_sweeps.get(&strip_dimens[j]).unwrap() {
                     match range_sweep {
                         On(range) => strip_active_ranges.insert(range),
                         Off(range) => strip_active_ranges.remove(range),
                     };
                 }
-                if j > 0 && strip_active_ranges.len() > 1 {
-                    let current_overlap = strip_dimens[j] - strip_dimens[j - 1];
-                    println!(
-                        "found overlap at {:?} ({:?}): {:?}",
-                        strip_dimens[j], current_overlap, strip_active_ranges
-                    );
-                    strip_overlapping += hight * current_overlap;
-                }
             }
             overlapping += strip_overlapping;
-            println!(
-                "strip overlap: {:?} total: {:?}",
-                strip_overlapping, overlapping
-            );
+        }
+
+        // process changes for current edge point (first dimension)
+        for range_sweep in sweeps.get(&all_first_dimens[i]).unwrap() {
+            match range_sweep {
+                On(range) => active_ranges.insert(range),
+                Off(range) => active_ranges.remove(range),
+            };
         }
     }
 
