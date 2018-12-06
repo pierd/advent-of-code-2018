@@ -1,5 +1,4 @@
 use std::io::{self, Read};
-use std::iter::repeat;
 
 type Point = (isize, isize);
 
@@ -59,7 +58,7 @@ fn main() -> io::Result<()> {
     let max_x = points.iter().map(|(a, _)| a).max().unwrap();
     let max_y = points.iter().map(|(_, a)| a).max().unwrap();
 
-    let mut infinite: Vec<bool> = repeat(false).take(points.len()).collect();
+    let mut infinite = vec![false; points.len()];
 
     for x in (min_x - max_dist)..=(max_x + max_dist) {
         if let Some(i) = find_owner((x, min_y - max_dist), &points) {
@@ -79,7 +78,7 @@ fn main() -> io::Result<()> {
         }
     }
 
-    let mut area: Vec<usize> = repeat(0).take(points.len()).collect();
+    let mut area = vec![0usize; points.len()];
     for x in (min_x - max_dist)..=(max_x + max_dist) {
         for y in (min_y - max_dist)..=(max_y + max_dist) {
             if let Some(i) = find_owner((x, y), &points) {
