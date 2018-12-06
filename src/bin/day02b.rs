@@ -6,7 +6,7 @@ fn main() -> io::Result<()> {
     let ids: Vec<&str> = input.split("\n").filter(|line| !line.is_empty()).collect();
     for i in 0..ids.len() {
         for j in i..ids.len() {
-            let mut diffs = ids[i]
+            let diffs = ids[i]
                 .chars()
                 .into_iter()
                 .zip(ids[j].chars().into_iter())

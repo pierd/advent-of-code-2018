@@ -1,5 +1,3 @@
-extern crate regex;
-
 use regex::Regex;
 use std::collections::HashMap;
 use std::io::{self, Read};
@@ -11,7 +9,7 @@ enum Action {
     Up,
 }
 
-use Action::*;
+use self::Action::*;
 
 #[derive(Debug, Eq, Ord, PartialEq, PartialOrd)]
 struct Entry {

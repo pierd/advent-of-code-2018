@@ -13,7 +13,7 @@ enum RangeSweep<'a> {
     Off(&'a Range),
 }
 
-use RangeSweep::{Off, On};
+use self::RangeSweep::{Off, On};
 
 fn main() -> io::Result<()> {
     let mut input = String::new();
