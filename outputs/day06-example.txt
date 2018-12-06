@@ -1,0 +1,2 @@
+largest noninf area: 17
+region size: 16
