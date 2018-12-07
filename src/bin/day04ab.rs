@@ -61,7 +61,8 @@ fn main() -> io::Result<()> {
                     }
                 },
             }
-        }).collect();
+        })
+        .collect();
 
     entries.sort();
     println!("{:?}", entries);

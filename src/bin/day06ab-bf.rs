@@ -37,7 +37,8 @@ fn main() -> io::Result<()> {
                 coords_iter.next().unwrap().parse::<isize>().unwrap(),
                 coords_iter.next().unwrap().parse::<isize>().unwrap(),
             )
-        }).collect();
+        })
+        .collect();
 
     let max_dist = points
         .iter()
@@ -49,7 +50,8 @@ fn main() -> io::Result<()> {
                 .iter()
                 .map(|p2| dist(*p1, *p2))
                 .max()
-        }).max()
+        })
+        .max()
         .unwrap()
         .unwrap();
 

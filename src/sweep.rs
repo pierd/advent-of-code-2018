@@ -15,7 +15,7 @@ pub struct Sweeper<'a, Idx, V: 'a> {
     current_index: usize,
 }
 
-impl <'a, Idx, V> Iterator for Sweeper<'a, Idx, V>
+impl<'a, Idx, V> Iterator for Sweeper<'a, Idx, V>
 where
     Idx: Copy + Hash + Ord + PartialEq,
     V: Eq + Hash,
@@ -41,14 +41,14 @@ where
     }
 }
 
-impl <'a, Idx, V> FromIterator<(Range<Idx>, &'a V)> for Sweeper<'a, Idx, V>
+impl<'a, Idx, V> FromIterator<(Range<Idx>, &'a V)> for Sweeper<'a, Idx, V>
 where
     Idx: Copy + Hash + Ord + PartialEq,
     V: Eq + Hash,
 {
     fn from_iter<T>(iter: T) -> Self
     where
-        T: IntoIterator<Item=(Range<Idx>, &'a V)>
+        T: IntoIterator<Item = (Range<Idx>, &'a V)>,
     {
         let mut builder = SweeperBuilder::new();
         for (range, value) in iter {
@@ -63,7 +63,7 @@ pub struct SweeperBuilder<'a, Idx, V: 'a> {
     edges: HashMap<Idx, Vec<Edge<'a, V>>>,
 }
 
-impl <'a, Idx, V> SweeperBuilder<'a, Idx, V>
+impl<'a, Idx, V> SweeperBuilder<'a, Idx, V>
 where
     Idx: Copy + Hash + Ord + PartialEq,
     V: Eq + Hash,
@@ -78,8 +78,14 @@ where
     pub fn insert(&mut self, range: Range<Idx>, value: &'a V) {
         self.indexes.push(range.start);
         self.indexes.push(range.end);
-        self.edges.entry(range.start).or_default().push(Edge::On(value));
-        self.edges.entry(range.end).or_default().push(Edge::Off(value));
+        self.edges
+            .entry(range.start)
+            .or_default()
+            .push(Edge::On(value));
+        self.edges
+            .entry(range.end)
+            .or_default()
+            .push(Edge::Off(value));
     }
 
     pub fn build(mut self) -> Sweeper<'a, Idx, V> {
@@ -107,7 +113,10 @@ mod test {
         }
         let mut sweeper = builder.build();
         assert_eq!(sweeper.next(), Some((0..1, vec!["A"].iter().collect())));
-        assert_eq!(sweeper.next(), Some((1..2, vec!["A", "C"].iter().collect())));
+        assert_eq!(
+            sweeper.next(),
+            Some((1..2, vec!["A", "C"].iter().collect()))
+        );
         assert_eq!(sweeper.next(), Some((2..4, vec!["C"].iter().collect())));
         assert_eq!(sweeper.next(), Some((4..5, vec!["B"].iter().collect())));
         assert_eq!(sweeper.next(), None);

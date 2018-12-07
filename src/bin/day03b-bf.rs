@@ -25,7 +25,8 @@ fn main() -> io::Result<()> {
             let w = size_iter.next().unwrap().parse::<usize>().unwrap();
             let h = size_iter.next().unwrap().parse::<usize>().unwrap();
             (x, y, w, h)
-        }) {
+        })
+    {
         not_overlapping.insert(idx);
         for i in x..(x + w) {
             for j in y..(y + h) {

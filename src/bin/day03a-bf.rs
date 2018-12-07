@@ -23,7 +23,8 @@ fn main() -> io::Result<()> {
             let w = size_iter.next().unwrap().parse::<usize>().unwrap();
             let h = size_iter.next().unwrap().parse::<usize>().unwrap();
             (x, y, w, h)
-        }) {
+        })
+    {
         for i in x..(x + w) {
             for j in y..(y + h) {
                 fabric[i][j] += 1;

@@ -39,7 +39,8 @@ fn main() -> io::Result<()> {
             let range2 = Range(dim2, dim2_end, idx);
             idx += 1;
             Rect(range1, range2, idx)
-        }).collect();
+        })
+        .collect();
 
     // prepare edge points for first dimension
     let mut all_first_dimens = Vec::with_capacity(claims.len() * 2);

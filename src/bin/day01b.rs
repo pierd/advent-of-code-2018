@@ -9,12 +9,14 @@ fn main() -> io::Result<()> {
         .filter(|line| !line.is_empty())
         .map(|line| {
             let (sign, num) = line.split_at(1);
-            num.parse::<isize>().unwrap() * match sign {
-                "-" => -1,
-                "+" => 1,
-                _ => panic!("WTF?"),
-            }
-        }).collect();
+            num.parse::<isize>().unwrap()
+                * match sign {
+                    "-" => -1,
+                    "+" => 1,
+                    _ => panic!("WTF?"),
+                }
+        })
+        .collect();
     let mut freq = 0;
     let mut seen = HashSet::new();
     'outer: loop {

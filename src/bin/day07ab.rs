@@ -1,12 +1,12 @@
 use regex::Regex;
-use std::collections::{BinaryHeap, HashMap, HashSet};
 use std::cmp::Ordering;
+use std::collections::{BinaryHeap, HashMap, HashSet};
 use std::fmt;
 use std::io::{self, Read};
 
 struct ReverseOrdered<T>(T);
 
-impl <T> fmt::Debug for ReverseOrdered<T>
+impl<T> fmt::Debug for ReverseOrdered<T>
 where
     T: fmt::Debug,
 {
@@ -15,7 +15,7 @@ where
     }
 }
 
-impl <T> PartialOrd for ReverseOrdered<T>
+impl<T> PartialOrd for ReverseOrdered<T>
 where
     T: PartialOrd,
 {
@@ -24,7 +24,7 @@ where
     }
 }
 
-impl <T> Ord for ReverseOrdered<T>
+impl<T> Ord for ReverseOrdered<T>
 where
     T: Ord,
 {
@@ -33,7 +33,7 @@ where
     }
 }
 
-impl <T> PartialEq for ReverseOrdered<T>
+impl<T> PartialEq for ReverseOrdered<T>
 where
     T: PartialEq,
 {
@@ -42,7 +42,7 @@ where
     }
 }
 
-impl <T> Eq for ReverseOrdered<T> where T: Eq {}
+impl<T> Eq for ReverseOrdered<T> where T: Eq {}
 
 fn solve_part1(entries: &Vec<(String, String)>) -> String {
     let mut all_vertices = HashSet::new();
@@ -51,8 +51,14 @@ fn solve_part1(entries: &Vec<(String, String)>) -> String {
     for (from, to) in entries {
         all_vertices.insert(from.to_string());
         all_vertices.insert(to.to_string());
-        incoming.entry(to.to_string()).or_default().insert(from.to_string());
-        outgoing.entry(from.to_string()).or_default().insert(to.to_string());
+        incoming
+            .entry(to.to_string())
+            .or_default()
+            .insert(from.to_string());
+        outgoing
+            .entry(from.to_string())
+            .or_default()
+            .insert(to.to_string());
     }
 
     let mut answer = Vec::new();
@@ -86,15 +92,15 @@ fn work_time(label: &str) -> usize {
 }
 
 fn max(a: usize, b: usize) -> usize {
-    if a < b { b } else { a }
+    if a < b {
+        b
+    } else {
+        a
+    }
 }
 
 fn solve_part2(entries: &Vec<(String, String)>) -> usize {
-    let (workers_count, base_time) = if entries.len() < 20 {
-        (2, 0)
-    } else {
-        (5, 60)
-    };
+    let (workers_count, base_time) = if entries.len() < 20 { (2, 0) } else { (5, 60) };
 
     let mut all_vertices = HashSet::new();
     let mut incoming: HashMap<String, HashSet<String>> = HashMap::new();
@@ -102,8 +108,14 @@ fn solve_part2(entries: &Vec<(String, String)>) -> usize {
     for (from, to) in entries {
         all_vertices.insert(from.to_string());
         all_vertices.insert(to.to_string());
-        incoming.entry(to.to_string()).or_default().insert(from.to_string());
-        outgoing.entry(from.to_string()).or_default().insert(to.to_string());
+        incoming
+            .entry(to.to_string())
+            .or_default()
+            .insert(from.to_string());
+        outgoing
+            .entry(from.to_string())
+            .or_default()
+            .insert(to.to_string());
     }
 
     let mut earliest_start_time: HashMap<String, usize> = HashMap::new();

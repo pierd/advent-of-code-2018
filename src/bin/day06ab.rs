@@ -82,7 +82,8 @@ fn main() -> io::Result<()> {
                 coords_iter.next().unwrap().parse::<isize>().unwrap(),
                 coords_iter.next().unwrap().parse::<isize>().unwrap(),
             )
-        }).collect();
+        })
+        .collect();
 
     // handle both example and real
     let limit = if points.len() < 10 { 32 } else { 10000 };
@@ -97,7 +98,8 @@ fn main() -> io::Result<()> {
                 .iter()
                 .map(|p2| dist(*p1, *p2))
                 .max()
-        }).max()
+        })
+        .max()
         .unwrap()
         .unwrap();
 
