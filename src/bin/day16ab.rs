@@ -191,7 +191,7 @@ fn main() -> io::Result<()> {
         .filter(|(_, v)| v.len() == 1)
         .map(|(k, v)| (*k, *v.iter().next().unwrap()))
         .collect();
-    while opcodes.len() != opcode_meaning.len() {
+    while !instructions.is_empty() && opcodes.len() != opcode_meaning.len() {
         for (code, opcode) in opcodes.iter() {
             for (k, v) in opcode_meaning.iter_mut() {
                 if k != code {
