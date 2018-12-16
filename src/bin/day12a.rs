@@ -77,7 +77,6 @@ fn main() -> io::Result<()> {
         .skip("initial state: ".len())
         .map(|c| c == '#')
         .collect();
-    print_out(&initial);
 
     let rules: RulesMap = lines
         .map(|line| {
@@ -104,7 +103,6 @@ fn main() -> io::Result<()> {
 
     for _ in 0..20 {
         world = world.advance(&rules);
-        print_out(&world.vec);
     }
 
     println!("{}", world.score());

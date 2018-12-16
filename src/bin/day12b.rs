@@ -77,7 +77,6 @@ fn main() -> io::Result<()> {
         .skip("initial state: ".len())
         .map(|c| c == '#')
         .collect();
-    print_out(&initial);
 
     let rules: RulesMap = lines
         .map(|line| {
@@ -106,8 +105,6 @@ fn main() -> io::Result<()> {
     for i in 1..1000 {
         let prev = world.vec.clone();
         world = world.advance(&rules);
-        print_out(&world.vec);
-        println!("iter: {} min: {} score: {}", i, world.offset, world.score());
         if prev == world.vec {
             iter = i;
             break;
