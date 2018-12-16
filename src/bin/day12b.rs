@@ -57,6 +57,7 @@ impl OffsettedVec {
     }
 }
 
+#[allow(dead_code)]
 fn print_out(v: &Vec<bool>) {
     for i in v {
         print!("{}", if *i { '#' } else { '.' });
