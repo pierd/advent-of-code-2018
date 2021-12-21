@@ -6,7 +6,7 @@ fn dist(a: Point, b: Point) -> isize {
     (a.0 - b.0).abs() + (a.1 - b.1).abs()
 }
 
-fn find_owner(x: Point, points: &Vec<Point>) -> Option<usize> {
+fn find_owner(x: Point, points: &[Point]) -> Option<usize> {
     let mut result = None;
     let mut min_dist = 10000;
     for (i, p) in points.iter().enumerate() {
@@ -21,7 +21,7 @@ fn find_owner(x: Point, points: &Vec<Point>) -> Option<usize> {
     result
 }
 
-fn sum_dists(x: Point, points: &Vec<Point>) -> isize {
+fn sum_dists(x: Point, points: &[Point]) -> isize {
     points.iter().map(|p| dist(x, *p)).sum()
 }
 
@@ -29,7 +29,7 @@ fn main() -> io::Result<()> {
     let mut input = String::new();
     io::stdin().read_to_string(&mut input)?;
     let points: Vec<Point> = input
-        .split("\n")
+        .lines()
         .filter(|x| !x.is_empty())
         .map(|line| {
             let mut coords_iter = line.split(", ");

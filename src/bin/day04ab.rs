@@ -25,11 +25,7 @@ const DAYS: [usize; 13] = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 impl Entry {
     fn timestamp(&self) -> usize {
-        let mut days = 0;
-        for i in 1..=self.month {
-            days += DAYS[i];
-        }
-        days += self.day - 1;
+        let days = DAYS.iter().skip(1).take(self.month).sum::<usize>() + self.day - 1;
         (days * 24 + self.hour) * 60 + self.minute
     }
 }
@@ -42,7 +38,7 @@ fn main() -> io::Result<()> {
     let message_re = Regex::new(r"Guard #(?P<num>\d+) begins shift").unwrap();
 
     let mut entries: Vec<Entry> = input
-        .split("\n")
+        .lines()
         .filter(|line| !line.is_empty())
         .map(|line| {
             let caps = re.captures(line).unwrap();
@@ -123,10 +119,10 @@ fn main() -> io::Result<()> {
     let mut max_sleep_minute = 0;
     let mut max_sleep_count = 0;
     let sleeper_sleep = sleep.get(&max_sleeper).unwrap();
-    for minute in 0..60 {
-        if max_sleep_count < sleeper_sleep[minute] {
+    for (minute, sleeper_sleep_count) in sleeper_sleep.iter().enumerate().take(60) {
+        if max_sleep_count < *sleeper_sleep_count {
             max_sleep_minute = minute;
-            max_sleep_count = sleeper_sleep[minute];
+            max_sleep_count = *sleeper_sleep_count;
         }
     }
     println!("max_minute: {}", max_sleep_minute);
@@ -134,11 +130,11 @@ fn main() -> io::Result<()> {
 
     for g in sleep.keys() {
         let sleeper_sleep = sleep.get(g).unwrap();
-        for minute in 0..60 {
-            if max_sleep_count < sleeper_sleep[minute] {
+        for (minute, sleeper_sleep_count) in sleeper_sleep.iter().enumerate().take(60) {
+            if max_sleep_count < *sleeper_sleep_count {
                 max_sleeper = *g;
                 max_sleep_minute = minute;
-                max_sleep_count = sleeper_sleep[minute];
+                max_sleep_count = *sleeper_sleep_count;
             }
         }
     }

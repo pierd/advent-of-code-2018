@@ -2,9 +2,9 @@
 name = "advent_of_code_2018"
 version = "0.1.0"
 authors = ["Jakub Jaroszewski <jakub.jaroszewski@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 [dependencies]
-rand = "0.6.0"
-regex = "1.1.0"
-text_io = "0.1.7"
+rand = "0.8.4"
+regex = "1.5.4"
+text_io = "0.1.9"

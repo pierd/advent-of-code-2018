@@ -2,7 +2,7 @@ use regex::Regex;
 use std::collections::HashSet;
 use std::io::{self, Read};
 
-fn print_out(points: &Vec<(isize, isize, isize, isize)>) -> bool {
+fn print_out(points: &[(isize, isize, isize, isize)]) -> bool {
     let min_x = points.iter().map(|(n, _, _, _)| *n).min().unwrap();
     let max_x = points.iter().map(|(n, _, _, _)| *n).max().unwrap();
     let min_y = points.iter().map(|(_, n, _, _)| *n).min().unwrap();
@@ -21,7 +21,7 @@ fn print_out(points: &Vec<(isize, isize, isize, isize)>) -> bool {
                     }
                 );
             }
-            println!("");
+            println!();
         }
         true
     } else {
@@ -29,7 +29,7 @@ fn print_out(points: &Vec<(isize, isize, isize, isize)>) -> bool {
     }
 }
 
-fn advance(points: &mut Vec<(isize, isize, isize, isize)>) {
+fn advance(points: &mut [(isize, isize, isize, isize)]) {
     for (x, y, dx, dy) in points.iter_mut() {
         *x += *dx;
         *y += *dy;
@@ -45,7 +45,7 @@ fn main() -> io::Result<()> {
     )
     .unwrap();
     let mut points: Vec<(isize, isize, isize, isize)> = input
-        .split("\n")
+        .lines()
         .filter(|line| !line.is_empty())
         .map(|line| {
             let caps = re.captures(line).unwrap();
@@ -61,7 +61,7 @@ fn main() -> io::Result<()> {
     for t in 0..15000 {
         if print_out(&points) {
             println!("{}", t);
-            println!("");
+            println!();
         }
         advance(&mut points);
     }

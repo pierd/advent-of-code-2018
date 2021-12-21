@@ -3,7 +3,7 @@ use std::io::{self, Read};
 fn main() -> io::Result<()> {
     let mut input = String::new();
     io::stdin().read_to_string(&mut input)?;
-    let ids: Vec<&str> = input.split("\n").filter(|line| !line.is_empty()).collect();
+    let ids: Vec<&str> = input.lines().filter(|line| !line.is_empty()).collect();
     for i in 0..ids.len() {
         for j in i..ids.len() {
             let diffs = ids[i]

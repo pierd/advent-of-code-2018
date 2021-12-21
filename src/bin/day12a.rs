@@ -42,7 +42,7 @@ impl OffsettedVec {
         }
         OffsettedVec {
             offset: first_offset.unwrap_or_default(),
-            vec: vec,
+            vec,
         }
     }
 
@@ -58,18 +58,18 @@ impl OffsettedVec {
 }
 
 #[allow(dead_code)]
-fn print_out(v: &Vec<bool>) {
+fn print_out(v: &[bool]) {
     for i in v {
         print!("{}", if *i { '#' } else { '.' });
     }
-    println!("");
+    println!();
 }
 
 fn main() -> io::Result<()> {
     let mut input = String::new();
     io::stdin().read_to_string(&mut input)?;
 
-    let mut lines = input.split("\n").filter(|line| !line.is_empty());
+    let mut lines = input.lines().filter(|line| !line.is_empty());
 
     let initial: Vec<bool> = lines
         .next()

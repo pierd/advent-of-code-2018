@@ -16,11 +16,10 @@ impl Cycle {
     }
 
     fn contains(&self, x: usize) -> bool {
-        assert!(match (self.next[x], self.prev[x]) {
-            (None, None) => true,
-            (Some(_), Some(_)) => true,
-            _ => false,
-        });
+        matches!(
+            (self.next[x], self.prev[x]),
+            (None, None) | (Some(_), Some(_))
+        );
         self.next[x] != None && self.prev[x] != None
     }
 
@@ -89,7 +88,7 @@ impl fmt::Debug for Cycle {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         if self.contains(0) {
             let mut s = String::new();
-            s.push_str("0");
+            s.push('0');
             let mut x = self.next[0].unwrap();
             while x != 0 {
                 s.push(' ');
@@ -127,7 +126,7 @@ fn main() -> io::Result<()> {
 
     let re = Regex::new(r"(\d+) players; last marble is worth (\d+) points").unwrap();
     let cases: Vec<(usize, usize)> = input
-        .split("\n")
+        .lines()
         .filter(|line| !line.is_empty())
         .map(|line| {
             let caps = re.captures(line).unwrap();

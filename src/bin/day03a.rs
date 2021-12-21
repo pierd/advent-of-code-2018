@@ -22,13 +22,13 @@ fn main() -> io::Result<()> {
 
     // parse everything
     let claims: Vec<Rect> = input
-        .split("\n")
+        .lines()
         .filter(|line| !line.is_empty())
         .map(|line| {
             // horrible parsing
-            let mut coords_iter = line.split(" @ ").skip(1).next().unwrap().split(": ");
-            let mut point_iter = coords_iter.next().unwrap().split(",");
-            let mut size_iter = coords_iter.next().unwrap().split("x");
+            let mut coords_iter = line.split(" @ ").nth(1).unwrap().split(": ");
+            let mut point_iter = coords_iter.next().unwrap().split(',');
+            let mut size_iter = coords_iter.next().unwrap().split('x');
             let dim1 = point_iter.next().unwrap().parse().unwrap();
             let dim2 = point_iter.next().unwrap().parse().unwrap();
             let dim1_end = dim1 + size_iter.next().unwrap().parse::<usize>().unwrap();
@@ -51,7 +51,7 @@ fn main() -> io::Result<()> {
         sweeps.entry((claim.0).0).or_default().push(On(&claim.1));
         sweeps.entry((claim.0).1).or_default().push(Off(&claim.1));
     }
-    all_first_dimens.sort();
+    all_first_dimens.sort_unstable();
     all_first_dimens.dedup();
 
     let mut overlapping = 0; // counter for overlapping area
@@ -74,7 +74,7 @@ fn main() -> io::Result<()> {
                 strip_sweeps.entry(range.0).or_default().push(On(range));
                 strip_sweeps.entry(range.1).or_default().push(Off(range));
             }
-            strip_dimens.sort();
+            strip_dimens.sort_unstable();
             strip_dimens.dedup();
 
             for j in 0..strip_dimens.len() {

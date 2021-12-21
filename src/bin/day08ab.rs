@@ -69,7 +69,7 @@ impl<'a> Iterator for NodeIter<'a> {
 fn main() -> io::Result<()> {
     let mut input = String::new();
     io::stdin().read_to_string(&mut input)?;
-    let mut input_iter = input.split(" ").map(|x| x.parse::<usize>().unwrap());
+    let mut input_iter = input.split(' ').map(|x| x.parse::<usize>().unwrap());
     let tree = Node::from_iter(&mut input_iter);
     assert_eq!(input_iter.next(), None);
 

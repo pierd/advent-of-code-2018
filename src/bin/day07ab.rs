@@ -44,7 +44,7 @@ where
 
 impl<T> Eq for ReverseOrdered<T> where T: Eq {}
 
-fn solve_part1(entries: &Vec<(String, String)>) -> String {
+fn solve_part1(entries: &[(String, String)]) -> String {
     let mut all_vertices = HashSet::new();
     let mut incoming: HashMap<String, HashSet<String>> = HashMap::new();
     let mut outgoing: HashMap<String, HashSet<String>> = HashMap::new();
@@ -70,17 +70,14 @@ fn solve_part1(entries: &Vec<(String, String)>) -> String {
     while !ready.is_empty() {
         let v = ready.pop().unwrap().0;
         answer.push(v.clone());
-        match outgoing.get(&v) {
-            Some(targets) => {
-                for target in targets {
-                    let deps = incoming.entry(target.to_string()).or_default();
-                    deps.remove(&v);
-                    if deps.is_empty() {
-                        ready.push(ReverseOrdered(target.to_string()));
-                    }
+        if let Some(targets) = outgoing.get(&v) {
+            for target in targets {
+                let deps = incoming.entry(target.to_string()).or_default();
+                deps.remove(&v);
+                if deps.is_empty() {
+                    ready.push(ReverseOrdered(target.to_string()));
                 }
             }
-            None => {}
         }
     }
 
@@ -99,7 +96,7 @@ fn max(a: usize, b: usize) -> usize {
     }
 }
 
-fn solve_part2(entries: &Vec<(String, String)>) -> usize {
+fn solve_part2(entries: &[(String, String)]) -> usize {
     let (workers_count, base_time) = if entries.len() < 20 { (2, 0) } else { (5, 60) };
 
     let mut all_vertices = HashSet::new();
@@ -137,19 +134,16 @@ fn solve_part2(entries: &Vec<(String, String)>) -> usize {
         let worker = workers.pop().unwrap().0;
         let start_time = max(t, worker);
         let finish_time = start_time + work_time(&v) + base_time;
-        match outgoing.get(&v) {
-            Some(targets) => {
-                for target in targets {
-                    let deps = incoming.entry(target.to_string()).or_default();
-                    deps.remove(&v);
-                    let earliest = earliest_start_time.entry(target.to_string()).or_default();
-                    *earliest = max(*earliest, finish_time);
-                    if deps.is_empty() {
-                        ready.push(ReverseOrdered((*earliest, target.to_string())));
-                    }
+        if let Some(targets) = outgoing.get(&v) {
+            for target in targets {
+                let deps = incoming.entry(target.to_string()).or_default();
+                deps.remove(&v);
+                let earliest = earliest_start_time.entry(target.to_string()).or_default();
+                *earliest = max(*earliest, finish_time);
+                if deps.is_empty() {
+                    ready.push(ReverseOrdered((*earliest, target.to_string())));
                 }
             }
-            None => {}
         }
         workers.push(ReverseOrdered(finish_time));
     }
@@ -164,7 +158,7 @@ fn main() -> io::Result<()> {
     let re = Regex::new(r"Step ([A-Z]+) must be finished before step ([A-Z]+) can begin.").unwrap();
 
     let entries: Vec<(String, String)> = input
-        .split("\n")
+        .lines()
         .filter(|line| !line.is_empty())
         .map(|line| {
             let caps = re.captures(line).unwrap();

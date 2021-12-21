@@ -6,7 +6,7 @@ fn main() -> io::Result<()> {
     io::stdin().read_to_string(&mut input)?;
     let (twos, threes) =
         input
-            .split("\n")
+            .lines()
             .filter(|line| !line.is_empty())
             .fold((0, 0), |(two, three), line| {
                 let mut two_count = 0;

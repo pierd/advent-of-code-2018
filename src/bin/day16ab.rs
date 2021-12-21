@@ -25,7 +25,7 @@ enum Opcode {
 impl Opcode {
     fn execute(&self, regs: &Registers, instr: &Instruction) -> Registers {
         use self::Opcode::*;
-        let mut new_registers = regs.clone();
+        let mut new_registers = *regs;
         new_registers[instr[3]] = match self {
             Add(arg) => regs[instr[1]] + Opcode::get_arg(regs, arg, instr[2]),
             Mul(arg) => regs[instr[1]] * Opcode::get_arg(regs, arg, instr[2]),
@@ -88,15 +88,14 @@ impl Parser {
     }
 
     fn parse(regex: &Regex, text: &str) -> Option<[usize; 4]> {
-        match regex.captures(text) {
-            None => None,
-            Some(caps) => Some([
+        regex.captures(text).map(|caps| {
+            [
                 caps[1].parse().unwrap(),
                 caps[2].parse().unwrap(),
                 caps[3].parse().unwrap(),
                 caps[4].parse().unwrap(),
-            ]),
-        }
+            ]
+        })
     }
 }
 
@@ -116,28 +115,24 @@ fn main() -> io::Result<()> {
 
     let parser = Parser::default();
 
-    let mut lines = input.split("\n").filter(|line| !line.is_empty());
+    let mut lines = input.lines().filter(|line| !line.is_empty());
 
     let mut entries = Vec::new();
     let mut instructions = Vec::new();
-    loop {
-        if let Some(line) = lines.next() {
-            match parser.parse_before(line) {
-                None => {
-                    instructions.push(parser.parse_instruction(line).unwrap());
-                }
-                Some(before) => {
-                    let instruction = parser.parse_instruction(lines.next().unwrap()).unwrap();
-                    let after = parser.parse_after(lines.next().unwrap()).unwrap();
-                    entries.push(Entry {
-                        before,
-                        after,
-                        instruction,
-                    });
-                }
+    while let Some(line) = lines.next() {
+        match parser.parse_before(line) {
+            None => {
+                instructions.push(parser.parse_instruction(line).unwrap());
             }
-        } else {
-            break;
+            Some(before) => {
+                let instruction = parser.parse_instruction(lines.next().unwrap()).unwrap();
+                let after = parser.parse_after(lines.next().unwrap()).unwrap();
+                entries.push(Entry {
+                    before,
+                    after,
+                    instruction,
+                });
+            }
         }
     }
 

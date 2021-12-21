@@ -170,7 +170,7 @@ impl MapField {
         }
     }
 
-    fn to_char(&self) -> char {
+    fn to_char(self) -> char {
         if self.is_cross() {
             '+'
         } else if self.up && self.down {
@@ -256,7 +256,7 @@ impl Cart {
         }
     }
 
-    fn to_char(&self) -> char {
+    fn to_char(self) -> char {
         use self::Direction::*;
         if self.crashed {
             'X'
@@ -286,11 +286,8 @@ impl Map {
                 *coords,
                 MapField::from_position_and_hashmap(coords, map).unwrap(),
             );
-            match Cart::from_position_and_field(coords, field) {
-                Some(cart) => {
-                    carts.push(cart);
-                }
-                None => {}
+            if let Some(cart) = Cart::from_position_and_field(coords, field) {
+                carts.push(cart);
             }
         }
         Map { fields, carts }
@@ -330,7 +327,7 @@ impl Map {
                     }
                 );
             }
-            println!("");
+            println!();
         }
         println!("{:?}", self.carts);
     }
@@ -385,7 +382,7 @@ fn main() -> io::Result<()> {
     io::stdin().read_to_string(&mut input)?;
 
     let input_map: HashMap<Coords, Field> = input
-        .split("\n")
+        .split('\n')
         .filter(|line| !line.is_empty())
         .enumerate()
         .flat_map(|(row, line)| {

@@ -74,7 +74,7 @@ fn main() -> io::Result<()> {
     let mut input = String::new();
     io::stdin().read_to_string(&mut input)?;
     let points: Vec<Point> = input
-        .split("\n")
+        .lines()
         .filter(|x| !x.is_empty())
         .map(|line| {
             let mut coords_iter = line.split(", ");

@@ -5,7 +5,7 @@ fn main() -> io::Result<()> {
     io::stdin().read_to_string(&mut input)?;
     println!(
         "{}",
-        input.split("\n").fold(0, |acc, line| if !line.is_empty() {
+        input.lines().fold(0, |acc, line| if !line.is_empty() {
             let (sign, num) = line.split_at(1);
             acc + num.parse::<isize>().unwrap()
                 * match sign {
