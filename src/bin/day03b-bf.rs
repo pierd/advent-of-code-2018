@@ -14,9 +14,9 @@ fn main() -> io::Result<()> {
     let mut idx = 1;
     for (x, y, w, h) in input.lines().filter(|line| !line.is_empty()).map(|line| {
         // horrible parsing
-        let mut coords_iter = line.split(" @ ").skip(1).next().unwrap().split(": ");
-        let mut point_iter = coords_iter.next().unwrap().split(",");
-        let mut size_iter = coords_iter.next().unwrap().split("x");
+        let mut coords_iter = line.split(" @ ").nth(1).unwrap().split(": ");
+        let mut point_iter = coords_iter.next().unwrap().split(',');
+        let mut size_iter = coords_iter.next().unwrap().split('x');
         let x = point_iter.next().unwrap().parse::<usize>().unwrap();
         let y = point_iter.next().unwrap().parse::<usize>().unwrap();
         let w = size_iter.next().unwrap().parse::<usize>().unwrap();
