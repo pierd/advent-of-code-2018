@@ -11,11 +11,15 @@ fn find_owner(x: Point, points: &[Point]) -> Option<usize> {
     let mut min_dist = 10000;
     for (i, p) in points.iter().enumerate() {
         let d = dist(x, *p);
-        if d < min_dist {
-            min_dist = d;
-            result = Some(i);
-        } else if d == min_dist {
-            result = None;
+        match d.cmp(&min_dist) {
+            std::cmp::Ordering::Less => {
+                min_dist = d;
+                result = Some(i);
+            }
+            std::cmp::Ordering::Equal => {
+                result = None;
+            }
+            _ => {}
         }
     }
     result

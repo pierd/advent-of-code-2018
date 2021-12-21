@@ -50,7 +50,7 @@ where
     where
         T: IntoIterator<Item = (Range<Idx>, &'a V)>,
     {
-        let mut builder = SweeperBuilder::new();
+        let mut builder = SweeperBuilder::default();
         for (range, value) in iter {
             builder.insert(range, value);
         }
@@ -63,18 +63,20 @@ pub struct SweeperBuilder<'a, Idx, V: 'a> {
     edges: HashMap<Idx, Vec<Edge<'a, V>>>,
 }
 
+impl<'a, Idx, V> Default for SweeperBuilder<'a, Idx, V> {
+    fn default() -> Self {
+        Self {
+            indexes: Vec::new(),
+            edges: HashMap::new(),
+        }
+    }
+}
+
 impl<'a, Idx, V> SweeperBuilder<'a, Idx, V>
 where
     Idx: Copy + Hash + Ord + PartialEq,
     V: Eq + Hash,
 {
-    pub fn new() -> Self {
-        SweeperBuilder {
-            indexes: Vec::new(),
-            edges: HashMap::new(),
-        }
-    }
-
     pub fn insert(&mut self, range: Range<Idx>, value: &'a V) {
         self.indexes.push(range.start);
         self.indexes.push(range.end);
@@ -107,7 +109,7 @@ mod test {
     #[test]
     fn test_simple_range() {
         let ranges = vec![(0..2, "A"), (4..5, "B"), (1..4, "C")];
-        let mut builder = SweeperBuilder::new();
+        let mut builder = SweeperBuilder::default();
         for r in ranges.iter() {
             builder.insert(r.0.clone(), &r.1);
         }

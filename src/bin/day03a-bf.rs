@@ -21,10 +21,10 @@ fn main() -> io::Result<()> {
         let h = size_iter.next().unwrap().parse::<usize>().unwrap();
         (x, y, w, h)
     }) {
-        for i in x..(x + w) {
-            for j in y..(y + h) {
-                fabric[i][j] += 1;
-                if fabric[i][j] == 2 {
+        for row in fabric.iter_mut().skip(x).take(w) {
+            for f in row.iter_mut().skip(y).take(h) {
+                *f += 1;
+                if *f == 2 {
                     overlapping += 1;
                 }
             }

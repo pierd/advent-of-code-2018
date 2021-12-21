@@ -24,13 +24,14 @@ fn main() -> io::Result<()> {
         (x, y, w, h)
     }) {
         not_overlapping.insert(idx);
-        for i in x..(x + w) {
-            for j in y..(y + h) {
-                if fabric[i][j] != 0 {
+
+        for row in fabric.iter_mut().skip(x).take(w) {
+            for f in row.iter_mut().skip(y).take(h) {
+                if *f != 0 {
                     not_overlapping.remove(&idx);
-                    not_overlapping.remove(&fabric[i][j]);
+                    not_overlapping.remove(f);
                 } else {
-                    fabric[i][j] = idx;
+                    *f = idx;
                 }
             }
         }
