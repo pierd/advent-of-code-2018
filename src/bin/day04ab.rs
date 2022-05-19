@@ -64,12 +64,11 @@ fn main() -> io::Result<()> {
     println!("{:?}", entries);
     println!("{:?}", entries.len());
 
-    let mut guard;
-    if let Start(g) = entries[0].action {
-        guard = g;
+    let mut guard = if let Start(g) = entries[0].action {
+        g
     } else {
         panic!("Who's the first guard?");
-    }
+    };
 
     let mut sleep_start = 0;
     let mut sleep: HashMap<usize, [usize; 60]> = HashMap::new();
