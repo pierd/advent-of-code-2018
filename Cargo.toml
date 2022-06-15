@@ -5,6 +5,10 @@ authors = ["Jakub Jaroszewski <jakub.jaroszewski@gmail.com>"]
 edition = "2021"
 
 [dependencies]
+# aoc-helpers = { path = "../aoc-helpers" }
+aoc-helpers = { git = "https://github.com/pierd/aoc-helpers", rev = "a34f613" }
+lazy_static = "1.4.0"
 rand = "0.8.4"
 regex = "1.5.4"
+rematch = "0.1.2"
 text_io = "0.1.9"
