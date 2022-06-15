@@ -1,0 +1,31 @@
+seti 123 0 1            // $1 = 123
+bani 1 456 1            // $1 &= 456
+eqri 1 72 1             // $1 bool($1 == 71)
+addr 1 2 2              // $2 += $1 ^ (continue or jump 1)
+seti 0 0 2              // $2 = 0 (goto 1)
+seti 0 4 1              // $1 = 0
+bori 1 65536 3          // $3 = $1 | 65536
+seti 10905776 4 1       // $1 = 10905776
+bani 3 255 4            // $4 = $3 & 255
+addr 1 4 1              // $1 += $4
+bani 1 16777215 1       // $1 &= 16777215
+muli 1 65899 1          // $1 *= 65899
+bani 1 16777215 1       // $1 &= 16777215
+gtir 256 3 4            // $4 = 256 > $3
+addr 4 2 2              // $2 += $4 ^ (continue or jump 1)
+addi 2 1 2              // $2 += 1 (jump 1)
+seti 27 1 2             // $2 = 27 (goto 28)
+seti 0 6 4              // $4 = 0
+addi 4 1 5              // $5 = $4 + 1
+muli 5 256 5            // $5 *= 256
+gtrr 5 3 5              // $5 = $5 > $3
+addr 5 2 2              // $2 += $5 ^ (continue or jump 1)
+addi 2 1 2              // $2 += 2 (goto 26)
+seti 25 1 2             // $2 = 25 (goto 26) => goto 18
+addi 4 1 4              // $4 += 1
+seti 17 9 2             // $2 = 17 (goto 18)
+setr 4 7 3              // $3 = $4
+seti 7 4 2              // $2 = 7 (goto 8)
+eqrr 1 0 4              // $4 = $1 == $0
+addr 4 2 2              // $2 += $4 ^ (continue or jump 1 = exit)
+seti 5 1 2              // $2 = 5 (goto 6)
