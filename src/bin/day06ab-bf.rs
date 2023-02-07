@@ -113,7 +113,7 @@ fn main() -> io::Result<()> {
             }
         }
     }
-    println!("region size: {}", zone);
+    println!("region size: {zone}");
 
     Ok(())
 }

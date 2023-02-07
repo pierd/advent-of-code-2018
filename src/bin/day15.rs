@@ -29,7 +29,7 @@ impl TryFrom<char> for Tile {
 struct Game {}
 
 impl Game {
-    fn from_map(map: &[Vec<Tile>]) -> Self {
+    fn from_map(_map: &[Vec<Tile>]) -> Self {
         Self {}
     }
 }
@@ -40,10 +40,12 @@ impl Problem for Day15 {
     type Part2 = usize;
 
     fn solve_part1(input: &<Self::Input as aoc_helpers::scaffold::Parse>::Parsed) -> Self::Part1 {
+        let _map = Game::from_map(input);
+        // TODO
         Default::default()
     }
 
-    fn solve_part2(input: &<Self::Input as aoc_helpers::scaffold::Parse>::Parsed) -> Self::Part2 {
+    fn solve_part2(_input: &<Self::Input as aoc_helpers::scaffold::Parse>::Parsed) -> Self::Part2 {
         Default::default()
     }
 }

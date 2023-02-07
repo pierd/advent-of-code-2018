@@ -27,7 +27,7 @@ fn main() -> io::Result<()> {
                         result.push(c1);
                     }
                 }
-                println!("{}", result);
+                println!("{result}");
             }
         }
     }

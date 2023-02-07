@@ -38,7 +38,7 @@ fn main() -> io::Result<()> {
         idx += 1;
     }
 
-    println!("{:?}", not_overlapping);
+    println!("{not_overlapping:?}");
 
     Ok(())
 }

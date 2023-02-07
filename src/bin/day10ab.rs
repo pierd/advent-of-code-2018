@@ -50,17 +50,17 @@ fn main() -> io::Result<()> {
         .map(|line| {
             let caps = re.captures(line).unwrap();
             (
-                (&caps["x"]).parse().unwrap(),
-                (&caps["y"]).parse().unwrap(),
-                (&caps["dx"]).parse().unwrap(),
-                (&caps["dy"]).parse().unwrap(),
+                caps["x"].parse().unwrap(),
+                caps["y"].parse().unwrap(),
+                caps["dx"].parse().unwrap(),
+                caps["dy"].parse().unwrap(),
             )
         })
         .collect();
 
     for t in 0..15000 {
         if print_out(&points) {
-            println!("{}", t);
+            println!("{t}");
             println!();
         }
         advance(&mut points);

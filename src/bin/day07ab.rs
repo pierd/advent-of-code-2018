@@ -162,7 +162,7 @@ fn main() -> io::Result<()> {
         .filter(|line| !line.is_empty())
         .map(|line| {
             let caps = re.captures(line).unwrap();
-            ((&caps[1]).to_string(), (&caps[2]).to_string())
+            (caps[1].to_string(), caps[2].to_string())
         })
         .collect();
 

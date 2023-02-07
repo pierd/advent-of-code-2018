@@ -61,7 +61,7 @@ fn main() -> io::Result<()> {
         .collect();
 
     entries.sort();
-    println!("{:?}", entries);
+    println!("{entries:?}");
     println!("{:?}", entries.len());
 
     let mut guard = if let Start(g) = entries[0].action {
@@ -101,7 +101,7 @@ fn main() -> io::Result<()> {
         }
     }
 
-    println!("{:?}", sleep_total);
+    println!("{sleep_total:?}");
 
     for (k, v) in sleep.iter() {
         println!(
@@ -114,7 +114,7 @@ fn main() -> io::Result<()> {
         );
     }
 
-    println!("max_sleeper: {}", max_sleeper);
+    println!("max_sleeper: {max_sleeper}");
     let mut max_sleep_minute = 0;
     let mut max_sleep_count = 0;
     let sleeper_sleep = sleep.get(&max_sleeper).unwrap();
@@ -124,7 +124,7 @@ fn main() -> io::Result<()> {
             max_sleep_count = *sleeper_sleep_count;
         }
     }
-    println!("max_minute: {}", max_sleep_minute);
+    println!("max_minute: {max_sleep_minute}");
     println!("strategy 1 result: {}", max_sleeper * max_sleep_minute);
 
     for g in sleep.keys() {
@@ -138,8 +138,8 @@ fn main() -> io::Result<()> {
         }
     }
 
-    println!("max_sleeper: {}", max_sleeper);
-    println!("max_minute: {}", max_sleep_minute);
+    println!("max_sleeper: {max_sleeper}");
+    println!("max_minute: {max_sleep_minute}");
     println!("strategy 2 result: {}", max_sleeper * max_sleep_minute);
 
     Ok(())

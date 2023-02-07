@@ -31,7 +31,7 @@ fn main() -> io::Result<()> {
         }
     }
 
-    println!("{}", overlapping);
+    println!("{overlapping}");
 
     Ok(())
 }

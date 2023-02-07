@@ -20,7 +20,7 @@ impl Cycle {
             (self.next[x], self.prev[x]),
             (None, None) | (Some(_), Some(_))
         );
-        self.next[x] != None && self.prev[x] != None
+        self.next[x].is_some() && self.prev[x].is_some()
     }
 
     fn init(&mut self, x: usize) {
@@ -95,7 +95,7 @@ impl fmt::Debug for Cycle {
                 s.push_str(&x.to_string());
                 x = self.forward(x, 1);
             }
-            write!(f, "{}", s)
+            write!(f, "{s}")
         } else {
             write!(f, "Empty")
         }
@@ -130,7 +130,7 @@ fn main() -> io::Result<()> {
         .filter(|line| !line.is_empty())
         .map(|line| {
             let caps = re.captures(line).unwrap();
-            ((&caps[1]).parse().unwrap(), (&caps[2]).parse().unwrap())
+            (caps[1].parse().unwrap(), caps[2].parse().unwrap())
         })
         .collect();
 

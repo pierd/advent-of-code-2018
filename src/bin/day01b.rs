@@ -23,7 +23,7 @@ fn main() -> io::Result<()> {
         for n in &changes {
             freq += n;
             if seen.contains(&freq) {
-                println!("{}", freq);
+                println!("{freq}");
                 break 'outer;
             }
             seen.insert(freq);

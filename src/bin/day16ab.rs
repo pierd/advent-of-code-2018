@@ -177,7 +177,7 @@ fn main() -> io::Result<()> {
             .or_default()
             .retain(|opcode| matching.contains(opcode));
     }
-    println!("{}", like_3_or_more);
+    println!("{like_3_or_more}");
 
     // clean up the opcodes
     // grab the ones that the meaning is known and remove them from other ones

@@ -54,7 +54,7 @@ impl Map {
             return false;
         }
         let f = self.field_mut(p);
-        if f[i] == None {
+        if f[i].is_none() {
             f[i] = Some(distance);
             true
         } else if let Some(d) = f[i] {
@@ -135,7 +135,7 @@ fn main() -> io::Result<()> {
         }
     }
 
-    println!("{:?}", in_queue_count);
+    println!("{in_queue_count:?}");
 
     // println!(
     //     "largest noninf area: {}",
